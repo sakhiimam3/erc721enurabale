@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
@@ -13,8 +12,8 @@ contract NFTCollectible is ERC721Enumerable, Ownable {
 
     Counters.Counter private _tokenIds;
 
-    uint public constant MAX_SUPPLY = 50;
-    uint public constant PRICE = 0.00001 ether;
+    uint public constant MAX_SUPPLY = 100;
+    uint public constant PRICE = 0.01 ether;
     uint public constant MAX_PER_MINT = 5;
 
     string public baseTokenURI;
@@ -26,7 +25,7 @@ contract NFTCollectible is ERC721Enumerable, Ownable {
     function reserveNFTs() public onlyOwner {
         uint totalMinted = _tokenIds.current();
 
-        require(totalMinted < MAX_SUPPLY, "Not enough NFTs left to reserve");
+        require(totalMinted.add(3) < MAX_SUPPLY, "Not enough NFTs left to reserve");
 
         for (uint i = 0; i < 3; i++) {
             _mintSingleNFT();
@@ -44,7 +43,7 @@ contract NFTCollectible is ERC721Enumerable, Ownable {
     function mintNFTs(uint _count) public payable {
         uint totalMinted = _tokenIds.current();
 
-        require(totalMinted <= MAX_SUPPLY, "Not enough NFTs left!");
+        require(totalMinted.add(_count) <= MAX_SUPPLY, "Not enough NFTs left!");
         require(_count >0 && _count <= MAX_PER_MINT, "Cannot mint specified number of NFTs.");
         require(msg.value >= PRICE.mul(_count), "Not enough ether to purchase NFTs.");
 

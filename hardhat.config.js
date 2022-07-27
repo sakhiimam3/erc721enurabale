@@ -1,5 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
-require('dotenv').config();
+require("dotenv").config();
 
 const { API_URL, PRIVATE_KEY } = process.env;
 
@@ -25,7 +25,7 @@ module.exports = {
   networks: {
     rinkeby: {
       url: API_URL,
-      accounts: [PRIVATE_KEY]
-    }
+      accounts: [PRIVATE_KEY],
+    },
   },
 };
